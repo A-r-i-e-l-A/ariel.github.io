@@ -1,2 +1,1 @@
-# ariel.github.io
 temp
