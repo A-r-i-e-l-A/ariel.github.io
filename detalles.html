@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Detalles</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./spec-logo.jpg" type="image/x-icon">
+    <script src="./script.js" defer></script>
+</head>
+
+<body class="admin-body">
+    <div class="back-button-wrapper">
+        <a href="admin.html" class="back-button">← Volver al panel</a>
+    </div>
+
+    <main class="admin-panel">
+        <h1>Detalles</h1>
+        <div class="info-registro" id="info-registro">
+            <p>Cargando...</p>
+        </div>
+        <div class="registros-usuario" id="registros-usuario">
+        </div>
+    </main>
+
+    <script>
+        // DETALLES.HTML Script
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in and is admin
+            if (!isLoggedIn()) {
+                alert('Debes iniciar sesión para acceder a esta página');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const currentUser = getCurrentUser();
+
+            if (!currentUser.isAdmin) {
+                alert('No tienes permisos para acceder a esta página');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Get session ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session');
+
+            if (!sessionId) {
+                document.getElementById('info-registro').innerHTML = '<p>No se especificó ninguna sesión.</p>';
+                return;
+            }
+
+            // Load session data
+            const session = getSessionById(sessionId);
+
+            if (!session) {
+                document.getElementById('info-registro').innerHTML = '<p>Sesión no encontrada.</p>';
+                return;
+            }
+
+            // Display session info
+            const infoDiv = document.getElementById('info-registro');
+            const timeFormatted = session.totalTimeFormatted || formatTime(session.totalTime || 0);
+            const totalEntries = session.totalEntries || session.entries.length;
+            const entriesPerHour = session.entriesPerHour ||
+                (totalEntries > 0 && session.totalTime ? (totalEntries / (session.totalTime / 3600000)).toFixed(2) : 0);
+            const errorCount = session.errors || 0;
+            const errorPercentage = session.errorPercentage ||
+                (totalEntries > 0 ? ((errorCount / totalEntries) * 100).toFixed(2) : 0);
+
+            infoDiv.innerHTML = `
+                <p><b>${session.userName}</b></p>
+                <p>${session.date}</p>
+                <p>${timeFormatted}</p>
+                <p>Nº Registros: ${totalEntries}</p>
+                <p>Registros/hora: ${entriesPerHour}</p>
+                <p>Nº Errores: ${errorCount}</p>
+                <p>Porcentaje de errores: ${errorPercentage}%</p>
+            `;
+
+            // Display entries table
+            const registrosDiv = document.getElementById('registros-usuario');
+
+            if (session.entries.length === 0) {
+                registrosDiv.innerHTML = '<p style="padding: 20px;">No hay entradas registradas en esta sesión.</p>';
+                return;
+            }
+
+            // Create header
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'datos-nombres';
+            headerDiv.innerHTML = `
+                <p>Nombre</p>
+                <p>Apellidos</p>
+                <p>DNI</p>
+                <p>Nacimiento</p>
+                <p>Género</p>
+                <p>Domicilio</p>
+                <p>Ciudad</p>
+                <p>CA</p>
+                <p>Teléfono fijo</p>
+                <p>Teléfono móvil</p>
+                <p>Email</p>
+                <p>Empresa</p>
+                <p>IBAN</p>
+                <p>Tarjeta de crédito</p>
+            `;
+            registrosDiv.appendChild(headerDiv);
+
+            // Create rows for each entry
+            session.entries.forEach(entry => {
+                // --- ROW 1: Correct reference data ---
+                const correctDiv = document.createElement('div');
+                correctDiv.className = 'datos correct-row';
+
+                const correct = entry.correctData;
+
+                const correctFields = [
+                    correct.nombre,
+                    correct.apellidos,
+                    correct.dni,
+                    correct.nacimiento,
+                    correct.genero,
+                    correct.domicilio,
+                    correct.ciudad,
+                    correct.comunidad,
+                    correct.fijo,
+                    correct.movil,
+                    correct.email,
+                    correct.empresa,
+                    correct.iban,
+                    correct.tarjeta
+                ];
+
+                correctFields.forEach(val => {
+                    const p = document.createElement('p');
+                    p.textContent = val || '';
+                    p.classList.add('correct-field');
+                    correctDiv.appendChild(p);
+                });
+
+                registrosDiv.appendChild(correctDiv);
+
+
+                // --- ROW 2: User-submitted data ---
+                const userDiv = document.createElement('div');
+                userDiv.className = 'datos';
+
+                const fields = [
+                    { value: entry.nombre, key: 'nombre' },
+                    { value: entry.apellidos, key: 'apellidos' },
+                    { value: entry.dni, key: 'dni' },
+                    { value: entry.nacimiento, key: 'nacimiento' },
+                    { value: entry.genero, key: 'genero' },
+                    { value: entry.domicilio, key: 'domicilio' },
+                    { value: entry.ciudad, key: 'ciudad' },
+                    { value: entry.comunidad, key: 'comunidad' },
+                    { value: entry.fijo, key: 'fijo' },
+                    { value: entry.movil, key: 'movil' },
+                    { value: entry.email, key: 'email' },
+                    { value: entry.empresa, key: 'empresa' },
+                    { value: entry.iban, key: 'iban' },
+                    { value: entry.tarjeta, key: 'tarjeta' }
+                ];
+
+                fields.forEach(field => {
+                    const p = document.createElement('p');
+                    p.textContent = field.value || '';
+
+                    if (entry.errors && entry.errors.includes(field.key)) {
+                        p.classList.add('data-error');  // highlight wrong fields
+                    }
+
+                    userDiv.appendChild(p);
+                });
+
+                registrosDiv.appendChild(userDiv);
+            });
+            
+            // Helper function to format time
+            function formatTime(milliseconds) {
+                const minutes = Math.floor(milliseconds / 60000);
+                const seconds = Math.floor((milliseconds % 60000) / 1000);
+                return `${minutes} min`;
+            }
+        });
+    </script>
+</body>
+
+</html>

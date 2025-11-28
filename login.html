@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inicio Sesión | Gestión Clientes</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./spec-logo.jpg" type="image/x-icon">
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+    <main class="login">
+        <h1>Inicio de sesión</h1>
+        <form action="">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Escribe tu email..." required>
+            <label for="pswd">Contraseña:</label>
+            <input type="password" id="pswd" name="pswd" placeholder="Escribe tu contraseña..." required>
+
+            <div class="wrap">
+                <button type="submit">Iniciar sesión</button>
+            </div>
+        </form>
+
+        <p class="login-change">¿No tienes cuenta?
+            <a href="register.html">Regístrate</a>
+        </p>
+    </main>
+
+    <script>
+        // LOGIN.HTML Script
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('pswd').value;
+
+                // Attempt login
+                const result = loginUser(email, password);
+
+                if (result.success) {
+                    const currentUser = getCurrentUser();
+                    // Redirect based on admin status
+                    if (currentUser.isAdmin) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'form.html';
+                    }
+                } else {
+                    alert(result.message);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

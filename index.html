@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestión Clientes</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./spec-logo.jpg" type="image/x-icon">
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+    <main class="landing">
+        <h1>Web formulario clientes</h1>
+        <div class="no-login">
+            <a href="login.html">Iniciar Sesión</a>
+            <a href="register.html">Registrarse</a>
+        </div>
+        <div class="yes-login">
+            <a href="form.html">Gestión de clientes</a>
+            <button>Cerrar Sesión</button>
+        </div>
+    </main>
+
+    <script>
+        // INDEX.HTML Script
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Create default admin user on first load
+    const users = getUsers();
+    const adminExists = users.some(user => user.email === 'admin');
+    
+    if (!adminExists) {
+        const adminUser = {
+            id: Date.now(),
+            name: 'Admin',
+            email: 'admin',
+            password: 'admin',
+            isAdmin: true
+        };
+        users.push(adminUser);
+        saveUsers(users);
+        console.log('Admin user created: email: admin, password: admin');
+    }
+    
+    const noLogin = document.querySelector('.no-login');
+    const yesLogin = document.querySelector('.yes-login');
+    const logoutBtn = yesLogin.querySelector('button');
+    const clientLink = yesLogin.querySelector('a');
+    
+    // Show appropriate menu based on login status
+    if (isLoggedIn()) {
+        noLogin.style.display = 'none';
+        yesLogin.style.display = 'flex';
+        
+        const currentUser = getCurrentUser();
+        // Change link based on admin status
+        if (currentUser.isAdmin) {
+            clientLink.textContent = 'Panel admin';
+            clientLink.href = 'admin.html';
+        } else {
+            clientLink.textContent = 'Gestión de clientes';
+            clientLink.href = 'form.html';
+        }
+    } else {
+        noLogin.style.display = 'flex';
+        yesLogin.style.display = 'none';
+    }
+    
+    // Logout functionality
+    logoutBtn.addEventListener('click', function() {
+        clearCurrentUser();
+        window.location.reload();
+    });
+});
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Panel de Admin</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./spec-logo.jpg" type="image/x-icon">
+    <script src="./script.js" defer></script>
+</head>
+
+<body class="admin-body">
+    <div class="back-button-wrapper">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+    </div>
+
+    <main class="admin-panel">
+        <h1>User Logs</h1>
+        <div class="registros" id="registros-container">
+            <div class="registro">
+                <p>Usuario</p>
+                <p>Fecha</p>
+                <p>Tiempo</p>
+                <p>Nº Registros</p>
+                <p>Registros/hora</p>
+                <p>Nº Errores</p>
+                <p>% Errores</p>
+                <p></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ADMIN.HTML Script
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in and is admin
+            if (!isLoggedIn()) {
+                alert('Debes iniciar sesión para acceder a esta página');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const currentUser = getCurrentUser();
+
+            if (!currentUser.isAdmin) {
+                alert('No tienes permisos para acceder a esta página');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            console.log('Acceso a panel de administración autorizado');
+
+            // Load and display all sessions
+            const allSubmissions = getAllFormSubmissions();
+            const container = document.getElementById('registros-container');
+
+            if (allSubmissions.length === 0) {
+                const noDataDiv = document.createElement('div');
+                noDataDiv.style.padding = '20px';
+                noDataDiv.style.textAlign = 'center';
+                noDataDiv.innerHTML = '<p>No hay datos de sesiones registradas aún.</p>';
+                container.appendChild(noDataDiv);
+                return;
+            }
+
+            // Display each session
+            allSubmissions.forEach(session => {
+                const registroDiv = document.createElement('div');
+                registroDiv.className = 'registro';
+
+                // Format time
+                const timeFormatted = session.totalTimeFormatted || formatTime(session.totalTime || 0);
+                
+                // Calculate stats
+                const totalEntries = session.totalEntries || session.entries.length;
+                const entriesPerHour = session.entriesPerHour || 
+                    (totalEntries > 0 && session.totalTime ? (totalEntries / (session.totalTime / 3600000)).toFixed(2) : 0);
+                const errorCount = session.errors || 0;
+                const errorPercentage = session.errorPercentage || 
+                    (totalEntries > 0 ? ((errorCount / totalEntries) * 100).toFixed(2) : 0);
+
+                registroDiv.innerHTML = `
+                    <p>${session.userName}</p>
+                    <p>${session.date}</p>
+                    <p>${timeFormatted}</p>
+                    <p>${totalEntries}</p>
+                    <p>${entriesPerHour}</p>
+                    <p>${errorCount}</p>
+                    <p>${errorPercentage}</p>
+                    <a href="detalles.html?session=${encodeURIComponent(session.sessionId)}">Detalles</a>
+                `;
+
+                container.appendChild(registroDiv);
+            });
+
+            // Helper function to format time
+            function formatTime(milliseconds) {
+                const minutes = Math.floor(milliseconds / 60000);
+                const seconds = Math.floor((milliseconds % 60000) / 1000);
+                return `${minutes} min`;
+            }
+        });
+    </script>
+</body>
+
+</html>

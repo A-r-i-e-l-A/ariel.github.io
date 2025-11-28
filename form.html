@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestión Clientes</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./spec-logo.jpg" type="image/x-icon">
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+    <div class="timer-wrapper">
+        <div class="timer-ghost">
+            <div class="timer">
+                <p>00:00.00</p>
+            </div>
+        </div>
+    </div>
+    <main class="forms-container">
+
+        <div class="user-form">
+            <form action="" autocomplete="off">
+                <div class="datos-div">
+                    <p>Datos personales</p>
+                    <div>
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div>
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos" required>
+                    </div>
+                    <div>
+                        <label for="dni">DNI</label>
+                        <input type="text" id="dni" name="dni" required>
+                    </div>
+                    <div>
+                        <label for="nacimiento">Nacimiento</label>
+                        <input type="text" id="nacimiento" name="nacimiento" required>
+                    </div>
+                    <div class="genero-div">
+                        <label>Género</label>
+                        <span for="hombre">Hombre
+                            <input type="radio" id="hombre" name="genero" value="Hombre" required></span>
+                        <span for="mujer">Mujer
+                            <input type="radio" id="mujer" name="genero" value="Mujer" required></span>
+                        <span for="otro">Otro
+                            <input type="radio" id="otro" name="genero" value="Otro" required></span>
+                    </div>
+                </div>
+
+                <div class="datos-div">
+                    <p>Datos de contacto</p>
+                    <div>
+                        <label for="domicilio">Domicilio</label>
+                        <input type="text" id="domicilio" name="domicilio" required>
+                    </div>
+                    <div>
+                        <label for="ciudad">Ciudad</label>
+                        <input type="text" id="ciudad" name="ciudad" required>
+                    </div>
+                    <div>
+                        <label for="comunidad">Comunidad Autónoma</label>
+                        <select name="cars" id="cars">
+                            <option value="Andalucía">Andalucía</option>
+                            <option value="Aragón">Aragón</option>
+                            <option value="Asturias">Asturias</option>
+                            <option value="Canarias">Canarias</option>
+                            <option value="Cantabria">Cantabria</option>
+                            <option value="Castilla y León">Castilla y León</option>
+                            <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+                            <option value="Cataluña">Cataluña</option>
+                            <option value="Comunidad Valenciana">Comunidad Valenciana</option>
+                            <option value="Extremadura">Extremadura</option>
+                            <option value="Galicia">Galicia</option>
+                            <option value="Madrid">Madrid</option>
+                            <option value="Murcia">Murcia</option>
+                            <option value="Navarra">Navarra</option>
+                            <option value="País Vasco">País Vasco</option>
+                            <option value="La Rioja">La Rioja</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="fijo">Teléfono fijo</label>
+                        <input type="text" id="fijo" name="fijo" required>
+                    </div>
+                    <div>
+                        <label for="movil">Teléfono móvil</label>
+                        <input type="text" id="movil" name="movil" required>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" required>
+                    </div>
+
+                </div>
+
+                <div class="datos-div">
+                    <p>Datos bancarios</p>
+                    <div>
+                        <label for="empresa">Empresa</label>
+                        <input type="text" id="empresa" name="empresa" required>
+                    </div>
+                    <div>
+                        <label for="iban">IBAN</label>
+                        <input type="text" id="iban" name="iban" required>
+                    </div>
+                    <div>
+                        <label for="tarjeta">Tarjeta de crédito</label>
+                        <input type="text" id="tarjeta" name="tarjeta" required>
+                    </div>
+
+                </div>
+
+                <div class="wrap">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+        <div class="default-form">
+            <h2>Datos del cliente</h2>
+            <div class="form-wrapper">
+                <!-- Random data will be injected here -->
+            </div>
+            <a href="index.html">Terminar intento</a>
+        </div>
+    </main>
+
+    <script>
+        // FORM.HTML Script
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in
+            if (!isLoggedIn()) {
+                alert('Debes iniciar sesión para acceder a esta página');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const currentUser = getCurrentUser();
+            console.log('Usuario actual:', currentUser);
+
+            // Random data generators
+            const nombresHombre = ['Carlos', 'Miguel', 'Antonio', 'José', 'Manuel', 'Francisco', 'David', 'Juan', 'Javier', 'Daniel', 'Rafael', 'Pedro', 'Alejandro', 'Fernando', 'Sergio', 'Luis', 'Jorge', 'Alberto', 'Raúl', 'Andrés', 'Pablo', 'Diego', 'Ángel', 'Jesús', 'Marcos', 'Rubén', 'Roberto', 'Enrique', 'Adrián', 'Iván'];
+            const nombresMujer = ['María', 'Carmen', 'Ana', 'Isabel', 'Dolores', 'Pilar', 'Teresa', 'Rosa', 'Francisca', 'Antonia', 'Laura', 'Marta', 'Elena', 'Cristina', 'Paula', 'Lucía', 'Sara', 'Andrea', 'Patricia', 'Raquel', 'Beatriz', 'Natalia', 'Sofía', 'Julia', 'Silvia', 'Irene', 'Alba', 'Nuria', 'Rocío', 'Verónica'];
+            const apellidos = ['García', 'Rodríguez', 'González', 'Fernández', 'López', 'Martínez', 'Sánchez', 'Pérez', 'Gómez', 'Martín', 'Jiménez', 'Ruiz', 'Hernández', 'Díaz', 'Moreno', 'Álvarez', 'Muñoz', 'Romero', 'Alonso', 'Gutiérrez', 'Navarro', 'Torres', 'Domínguez', 'Vázquez', 'Ramos', 'Gil', 'Ramírez', 'Serrano', 'Blanco', 'Molina'];
+
+            const ciudadesPorCA = {
+                'Andalucía': ['Sevilla', 'Málaga', 'Granada', 'Córdoba', 'Cádiz', 'Almería', 'Huelva', 'Jaén', 'Marbella'],
+                'Aragón': ['Zaragoza', 'Huesca', 'Teruel', 'Calatayud', 'Utebo', 'Monzón'],
+                'Asturias': ['Oviedo', 'Gijón', 'Avilés', 'Langreo', 'Mieres', 'Siero'],
+                'Canarias': ['Las Palmas', 'Santa Cruz', 'La Laguna', 'Telde', 'Arona', 'Puerto del Rosario'],
+                'Cantabria': ['Santander', 'Torrelavega', 'Castro-Urdiales', 'Camargo', 'Piélagos'],
+                'Castilla y León': ['Valladolid', 'Burgos', 'Salamanca', 'León', 'Zamora', 'Palencia', 'Ávila', 'Segovia', 'Soria'],
+                'Castilla-La Mancha': ['Toledo', 'Albacete', 'Guadalajara', 'Ciudad Real', 'Cuenca', 'Talavera'],
+                'Cataluña': ['Barcelona', 'Tarragona', 'Lleida', 'Girona', 'Hospitalet', 'Badalona', 'Sabadell'],
+                'Comunidad Valenciana': ['Valencia', 'Alicante', 'Castellón', 'Elche', 'Torrevieja', 'Gandía'],
+                'Extremadura': ['Badajoz', 'Cáceres', 'Mérida', 'Plasencia', 'Don Benito'],
+                'Galicia': ['Vigo', 'A Coruña', 'Ourense', 'Lugo', 'Santiago', 'Pontevedra', 'Ferrol'],
+                'Madrid': ['Madrid', 'Móstoles', 'Alcalá', 'Fuenlabrada', 'Leganés', 'Getafe'],
+                'Murcia': ['Murcia', 'Cartagena', 'Lorca', 'Molina', 'Alcantarilla'],
+                'Navarra': ['Pamplona', 'Tudela', 'Barañáin', 'Burlada', 'Estella'],
+                'País Vasco': ['Bilbao', 'Vitoria', 'San Sebastián', 'Barakaldo', 'Getxo', 'Irún'],
+                'La Rioja': ['Logroño', 'Calahorra', 'Arnedo', 'Haro', 'Lardero']
+            };
+
+            const empresas = ['Telefónica', 'Inditex', 'Banco Santander', 'BBVA', 'Iberdrola', 'Repsol', 'Endesa', 'Mapfre', 'ACS', 'Mercadona'];
+            const calles = ['Mayor', 'Real', 'Sol', 'Luna', 'Principal', 'Constitución', 'Paz', 'Libertad', 'San Juan', 'Santa María', 'Plaza España', 'Gran Vía', 'Alcalá', 'Toledo', 'Prado'];
+            const tipoVia = ['Calle', 'Avenida', 'Paseo'];
+            const dominiosEmail = ['gmail.com', 'yahoo.es', 'hotmail.com', 'outlook.es'];
+
+            function removeAccents(str) {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
+
+            function randomElement(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            function randomNumber(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            /* ----------------------------------------
+                 CARET-SAFE AUTO FORMATTING FUNCTIONS
+            ----------------------------------------- */
+
+            function applyFormatter(input, formatter) {
+                const prev = input.value;
+                const raw = prev.replace(/\s+/g, '');
+                const prevPos = input.selectionStart;
+
+                const digitsBefore = prev.substring(0, prevPos).replace(/\s+/g, '').length;
+
+                const formatted = formatter(raw);
+                input.value = formatted;
+
+                let newPos = 0, seen = 0;
+                while (newPos < formatted.length && seen < digitsBefore) {
+                    if (/\d/.test(formatted[newPos])) seen++;
+                    newPos++;
+                }
+
+                input.selectionStart = input.selectionEnd = newPos;
+            }
+
+            function formatIBAN(raw) {
+                return raw.toUpperCase().replace(/(.{4})/g, '$1 ').trim();
+            }
+
+            function formatCard(raw) {
+                return raw.replace(/\D+/g, '').replace(/(.{4})/g, '$1 ').trim();
+            }
+
+            function formatPhone(raw) {
+                raw = raw.replace(/\D+/g, '').substring(0, 9);
+                if (raw.length <= 3) return raw;
+                if (raw.length <= 5) return raw.replace(/(\d{3})(\d+)/, '$1 $2');
+                if (raw.length <= 7) return raw.replace(/(\d{3})(\d{2})(\d+)/, '$1 $2 $3');
+                return raw.replace(/(\d{3})(\d{2})(\d{2})(\d+)/, '$1 $2 $3 $4');
+            }
+
+            const ibanInput = document.getElementById('iban');
+            const cardInput = document.getElementById('tarjeta');
+            const fijoInput = document.getElementById('fijo');
+            const movilInput = document.getElementById('movil');
+
+            ibanInput.addEventListener('input', () => applyFormatter(ibanInput, formatIBAN));
+            cardInput.addEventListener('input', () => applyFormatter(cardInput, formatCard));
+            fijoInput.addEventListener('input', () => applyFormatter(fijoInput, formatPhone));
+            movilInput.addEventListener('input', () => applyFormatter(movilInput, formatPhone));
+
+            function updateRandomDisplay() {
+                randomData = generateRandomData();
+
+                document.querySelector('.default-form .form-wrapper').innerHTML = `
+            <div>
+                <h3>Datos personales</h3>
+                <p>Nombre: <span>${randomData.nombre}</span></p>
+                <p>Apellidos: <span>${randomData.apellidos}</span></p>
+                <p>DNI: <span>${randomData.dni}</span></p>
+                <p>Nacimiento: <span>${randomData.nacimiento}</span></p>
+                <p>Género: <span>${randomData.genero}</span></p>
+            </div>
+            <hr>
+            <div>
+                <h3>Datos de contacto</h3>
+                <p>Domicilio: <span>${randomData.domicilio}</span></p>
+                <p>Ciudad: <span>${randomData.ciudad}</span></p>
+                <p>Comunidad Autónoma: <span>${randomData.comunidad}</span></p>
+                <p>Teléfono fijo: <span>${randomData.fijo}</span></p>
+                <p>Teléfono móvil: <span>${randomData.movil}</span></p>
+                <p>Email: <span>${randomData.email}</span></p>
+            </div>
+            <hr>
+            <div>
+                <h3>Datos bancarios</h3>
+                <p>Empresa: <span>${randomData.empresa}</span></p>
+                <p>IBAN: <span>${randomData.iban}</span></p>
+                <p>Tarjeta de crédito: <span>${randomData.tarjeta}</span></p>
+            </div>
+        `;
+            }
+
+            function generateRandomData() {
+                const genero = randomElement(['Hombre', 'Mujer']);
+                const nombre = genero === 'Hombre' ? randomElement(nombresHombre) : randomElement(nombresMujer);
+                const apellido1 = randomElement(apellidos);
+                const apellido2 = randomElement(apellidos);
+                const apellidosCompletos = `${apellido1} ${apellido2}`;
+
+                const comunidad = randomElement(Object.keys(ciudadesPorCA));
+                const ciudad = randomElement(ciudadesPorCA[comunidad]);
+
+                const dni = `${randomNumber(10000000, 99999999)}${String.fromCharCode(65 + randomNumber(0, 25))}`;
+                const nacimiento = `${String(randomNumber(1, 28)).padStart(2, '0')}/${String(randomNumber(1, 12)).padStart(2, '0')}/${randomNumber(1950, 2000)}`;
+
+                const domicilio = `${randomElement(tipoVia)} ${randomElement(calles)}, ${randomNumber(1, 199)}`;
+
+                function generateRandomPhone(type) {
+                    let num = '';
+                    if (type === 'fijo') {
+                        num += '9'; // fixed lines start with 9
+                    } else if (type === 'movil') {
+                        num += Math.random() < 0.5 ? '6' : '7'; // mobiles start with 6 or 7
+                    }
+
+                    // Fill the rest of the digits (9 digits total)
+                    while (num.length < 9) {
+                        num += Math.floor(Math.random() * 10);
+                    }
+
+                    return formatPhone(num); // returns in 3 2 2 2 format
+                }
+
+                const fijo = generateRandomPhone('fijo');
+                const movil = generateRandomPhone('movil');
+
+                const nombreSinTildes = removeAccents(nombre.toLowerCase());
+                const apellidoSinTildes = removeAccents(apellido1.toLowerCase());
+                const email = `${nombreSinTildes}.${apellidoSinTildes}@${randomElement(dominiosEmail)}`;
+
+                const empresa = randomElement(empresas);
+
+                const ibanNumbers = Array.from({ length: 20 }, () => randomNumber(0, 9)).join('');
+                const iban = `ES${randomNumber(10, 99)} ${ibanNumbers.substring(0, 4)} ${ibanNumbers.substring(4, 8)} ${ibanNumbers.substring(8, 12)} ${ibanNumbers.substring(12, 16)} ${ibanNumbers.substring(16, 20)}`;
+
+                const tarjeta = Array.from({ length: 16 }, () => randomNumber(0, 9)).join('');
+                const tarjetaFormateada = `${tarjeta.substring(0, 4)} ${tarjeta.substring(4, 8)} ${tarjeta.substring(8, 12)} ${tarjeta.substring(12, 16)}`;
+
+                return {
+                    nombre,
+                    apellidos: apellidosCompletos,
+                    dni,
+                    nacimiento,
+                    genero,
+                    domicilio,
+                    ciudad,
+                    comunidad,
+                    fijo,
+                    movil,
+                    email,
+                    empresa,
+                    iban,
+                    tarjeta: tarjetaFormateada
+                };
+            }
+
+            // Generate and display random data
+            let randomData = generateRandomData();
+
+            document.querySelector('.default-form .form-wrapper').innerHTML = `
+                <div>
+                    <h3>Datos personales</h3>
+                    <p>Nombre: <span>${randomData.nombre}</span></p>
+                    <p>Apellidos: <span>${randomData.apellidos}</span></p>
+                    <p>DNI: <span>${randomData.dni}</span></p>
+                    <p>Nacimiento: <span>${randomData.nacimiento}</span></p>
+                    <p>Género: <span>${randomData.genero}</span></p>
+                </div>
+                <hr>
+                <div>
+                    <h3>Datos de contacto</h3>
+                    <p>Domicilio: <span>${randomData.domicilio}</span></p>
+                    <p>Ciudad: <span>${randomData.ciudad}</span></p>
+                    <p>Comunidad Autónoma: <span>${randomData.comunidad}</span></p>
+                    <p>Teléfono fijo: <span>${randomData.fijo}</span></p>
+                    <p>Teléfono móvil: <span>${randomData.movil}</span></p>
+                    <p>Email: <span>${randomData.email}</span></p>
+                </div>
+                <hr>
+                <div>
+                    <h3>Datos bancarios</h3>
+                    <p>Empresa: <span>${randomData.empresa}</span></p>
+                    <p>IBAN: <span>${randomData.iban}</span></p>
+                    <p>Tarjeta de crédito: <span>${randomData.tarjeta}</span></p>
+                </div>
+            `;
+
+            // Initialize timer variables
+            let startTime = null;
+            let timerInterval = null;
+            let timerStarted = false;
+
+            function updateTimer() {
+                if (!startTime) return;
+
+                const elapsed = Date.now() - startTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                const milliseconds = Math.floor((elapsed % 1000) / 10);
+
+                const timerDisplay = document.querySelector('.timer p');
+                if (timerDisplay) {
+                    timerDisplay.textContent =
+                        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
+                }
+            }
+
+            function startTimer() {
+                if (timerStarted) return;
+
+                timerStarted = true;
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 10);
+                console.log('Timer started');
+            }
+
+            // Add event listeners to all form inputs to start timer
+            const formInputs = document.querySelectorAll('.user-form input, .user-form select');
+            formInputs.forEach(input => {
+                input.addEventListener('input', startTimer, { once: false });
+                input.addEventListener('change', startTimer, { once: false });
+                input.addEventListener('focus', startTimer, { once: false });
+                input.addEventListener('click', startTimer, { once: false });
+            });
+
+            // Timer toggle on click
+            const timerGhost = document.querySelector('.timer-ghost');
+            const timer = document.querySelector('.timer');
+            let timerHidden = false;
+
+            timerGhost.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (timerHidden) {
+                    timer.style.transform = 'translateY(0)';
+                    timerHidden = false;
+                } else {
+                    timer.style.transform = 'translateY(-50px)';
+                    timerHidden = true;
+                }
+            });
+
+            // Get or initialize user session data
+            function getUserSession() {
+                const sessionKey = `session_${currentUser.id}_${Date.now()}`;
+                const sessionData = {
+                    sessionId: sessionKey,
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    userEmail: currentUser.email,
+                    startTime: new Date().toISOString(),
+                    date: new Date().toLocaleDateString('es-ES'),
+                    entries: [],
+                    errors: 0
+                };
+                return sessionData;
+            }
+
+            let currentSession = getUserSession();
+
+            // Get all form submissions
+            function getAllSubmissions() {
+                const submissions = localStorage.getItem('formSubmissions');
+                return submissions ? JSON.parse(submissions) : [];
+            }
+
+            // Save all submissions
+            function saveAllSubmissions(submissions) {
+                localStorage.setItem('formSubmissions', JSON.stringify(submissions));
+            }
+
+            // Validate form data and detect errors
+            function validateFormData(formData) {
+                const errors = [];
+
+                if (formData.nombre !== formData.correctData.nombre) errors.push('nombre');
+                if (formData.apellidos !== formData.correctData.apellidos) errors.push('apellidos');
+                if (formData.dni !== formData.correctData.dni) errors.push('dni');
+                if (formData.nacimiento !== formData.correctData.nacimiento) errors.push('nacimiento');
+                if (formData.genero !== formData.correctData.genero) errors.push('genero');
+                if (formData.domicilio !== formData.correctData.domicilio) errors.push('domicilio');
+                if (formData.ciudad !== formData.correctData.ciudad) errors.push('ciudad');
+                if (formData.comunidad !== formData.correctData.comunidad) errors.push('comunidad');
+                if (formData.fijo !== formData.correctData.fijo) errors.push('fijo');
+                if (formData.movil !== formData.correctData.movil) errors.push('movil');
+                if (formData.email !== formData.correctData.email) errors.push('email');
+                if (formData.empresa !== formData.correctData.empresa) errors.push('empresa');
+
+                const userIban = formData.iban.replace(/\s+/g, '');
+                const correctIban = formData.correctData.iban.replace(/\s+/g, '');
+                if (userIban !== correctIban) errors.push('iban');
+
+                const userCard = formData.tarjeta.replace(/\s+/g, '');
+                const correctCard = formData.correctData.tarjeta.replace(/\s+/g, '');
+                if (userCard !== correctCard) errors.push('tarjeta');
+
+                return errors;
+            }
+
+            // Handle form submission
+            const form = document.querySelector('.user-form form');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Collect form data
+                const formData = {
+                    // Datos personales
+                    nombre: document.getElementById('nombre').value.trim(),
+                    apellidos: document.getElementById('apellidos').value.trim(),
+                    dni: document.getElementById('dni').value.trim().toUpperCase(),
+                    nacimiento: document.getElementById('nacimiento').value.trim(),
+                    genero: document.querySelector('input[name="genero"]:checked')?.value || '',
+
+                    // Datos de contacto
+                    domicilio: document.getElementById('domicilio').value.trim(),
+                    ciudad: document.getElementById('ciudad').value.trim(),
+                    comunidad: document.getElementById('cars').value,
+                    fijo: document.getElementById('fijo').value.trim(),
+                    movil: document.getElementById('movil').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+
+                    // Datos bancarios
+                    empresa: document.getElementById('empresa').value.trim(),
+                    iban: document.getElementById('iban').value.trim(),
+                    tarjeta: document.getElementById('tarjeta').value.trim(),
+
+                    // Metadata
+                    timestamp: new Date().toISOString(),
+                    timeElapsed: startTime ? Date.now() - startTime : 0
+                };
+
+                formData.correctData = randomData;
+
+                // Validate and detect errors
+                const detectedErrors = validateFormData(formData);
+                formData.errors = detectedErrors;
+                formData.hasErrors = detectedErrors.length > 0;
+
+                // Add to current session
+                currentSession.entries.push(formData);
+
+                if (detectedErrors.length > 0) {
+                    currentSession.errors += 1;  // ✅ Only count the entry, not fields
+                }
+
+                // Save to localStorage
+                const allSubmissions = getAllSubmissions();
+
+                // Check if this session already exists, update it
+                const existingIndex = allSubmissions.findIndex(s => s.sessionId === currentSession.sessionId);
+                if (existingIndex >= 0) {
+                    allSubmissions[existingIndex] = currentSession;
+                } else {
+                    allSubmissions.push(currentSession);
+                }
+
+                saveAllSubmissions(allSubmissions);
+
+                console.log('Form data saved:', formData);
+                console.log('Session updated:', currentSession);
+
+                // Clear form
+                form.reset();
+                updateRandomDisplay();
+            });
+
+            // Handle "Terminar intento" button
+            const endButton = document.querySelector('.default-form a[href="index.html"]');
+            if (endButton) {
+                endButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Calculate final session stats
+                    const endTime = Date.now();
+                    const totalTime = startTime ? endTime - startTime : 0;
+
+                    currentSession.endTime = new Date().toISOString();
+                    currentSession.totalTime = totalTime;
+                    currentSession.totalTimeFormatted = formatTime(totalTime);
+                    currentSession.totalEntries = currentSession.entries.length;
+                    currentSession.entriesPerHour = currentSession.totalEntries > 0 ?
+                        (currentSession.totalEntries / (totalTime / 3600000)).toFixed(2) : 0;
+                    currentSession.errorPercentage = currentSession.totalEntries > 0
+                        ? ((currentSession.errors / currentSession.totalEntries) * 100).toFixed(2) : 0;
+
+                    // Save final session
+                    const allSubmissions = getAllSubmissions();
+                    const existingIndex = allSubmissions.findIndex(s => s.sessionId === currentSession.sessionId);
+                    if (existingIndex >= 0) {
+                        allSubmissions[existingIndex] = currentSession;
+                    } else {
+                        allSubmissions.push(currentSession);
+                    }
+                    saveAllSubmissions(allSubmissions);
+
+                    console.log('Session ended:', currentSession);
+
+                    // Clear timer
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                    }
+
+                    // Redirect to index
+                    window.location.href = 'index.html';
+                });
+            }
+
+            // Helper function to format time
+            function formatTime(milliseconds) {
+                const minutes = Math.floor(milliseconds / 60000);
+                const seconds = Math.floor((milliseconds % 60000) / 1000);
+                return `${minutes} min ${seconds} seg`;
+            }
+        });
+    </script>
+</body>
+
+</html>
