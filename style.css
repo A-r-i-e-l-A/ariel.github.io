@@ -149,9 +149,7 @@ button:hover {
 .timer-ghost {
     z-index: 5;
     position: fixed;
-    width: 170px;
-    height: 55px;
-    text-align: center;
+    width: auto;
     cursor: pointer;
     border-radius: 0 0 10px 10px;
     justify-self: center;
@@ -159,13 +157,8 @@ button:hover {
 }
 
 .timer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    letter-spacing: -2px;
-    width: 170px;
-    height: 55px;
+    font-size: 32px;
+    width: auto;
     background: var(--blue);
     padding: 10px;
     border-radius: 0 0 10px 10px;
@@ -173,10 +166,8 @@ button:hover {
 }
 
 .timer p {
-    text-align: center;
-    height: 35px;
     background: #ddd;
-    padding: 3px 5px;
+    padding: 0 5px;
 }
 
 .forms-container {
@@ -343,7 +334,7 @@ form {
 
 .registro {
     display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr 1fr 1.2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr 1.5fr 1fr 1.5fr 1fr;
 }
 
 .registro:first-of-type {

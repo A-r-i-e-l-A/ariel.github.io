@@ -25,8 +25,9 @@
                 <p>Tiempo</p>
                 <p>Nº Registros</p>
                 <p>Registros/hora</p>
-                <p>Nº Errores</p>
+                <p>Nº Reg. Incorrectos</p>
                 <p>% Errores</p>
+                <p>Nº Errores Totales</p>
                 <p></p>
             </div>
         </div>
@@ -78,9 +79,18 @@
                 const totalEntries = session.totalEntries || session.entries.length;
                 const entriesPerHour = session.entriesPerHour || 
                     (totalEntries > 0 && session.totalTime ? (totalEntries / (session.totalTime / 3600000)).toFixed(2) : 0);
-                const errorCount = session.errors || 0;
+                const incorrectEntries = session.errors || 0;
+                
+                // Calculate total individual errors
+                let totalIndividualErrors = 0;
+                session.entries.forEach(entry => {
+                    if (entry.errors && Array.isArray(entry.errors)) {
+                        totalIndividualErrors += entry.errors.length;
+                    }
+                });
+                
                 const errorPercentage = session.errorPercentage || 
-                    (totalEntries > 0 ? ((errorCount / totalEntries) * 100).toFixed(2) : 0);
+                    (totalEntries > 0 ? ((incorrectEntries / totalEntries) * 100).toFixed(2) : 0);
 
                 registroDiv.innerHTML = `
                     <p>${session.userName}</p>
@@ -88,8 +98,9 @@
                     <p>${timeFormatted}</p>
                     <p>${totalEntries}</p>
                     <p>${entriesPerHour}</p>
-                    <p>${errorCount}</p>
+                    <p>${incorrectEntries}</p>
                     <p>${errorPercentage}</p>
+                    <p>${totalIndividualErrors}</p>
                     <a href="detalles.html?session=${encodeURIComponent(session.sessionId)}">Detalles</a>
                 `;
 

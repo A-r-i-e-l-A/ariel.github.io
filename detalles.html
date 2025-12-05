@@ -65,10 +65,10 @@
             const infoDiv = document.getElementById('info-registro');
             const timeFormatted = session.totalTimeFormatted || formatTime(session.totalTime || 0);
             const totalEntries = session.totalEntries || session.entries.length;
-            const entriesPerHour = session.entriesPerHour ||
+            const entriesPerHour = session.entriesPerHour || 
                 (totalEntries > 0 && session.totalTime ? (totalEntries / (session.totalTime / 3600000)).toFixed(2) : 0);
             const errorCount = session.errors || 0;
-            const errorPercentage = session.errorPercentage ||
+            const errorPercentage = session.errorPercentage || 
                 (totalEntries > 0 ? ((errorCount / totalEntries) * 100).toFixed(2) : 0);
 
             infoDiv.innerHTML = `
@@ -83,7 +83,7 @@
 
             // Display entries table
             const registrosDiv = document.getElementById('registros-usuario');
-
+            
             if (session.entries.length === 0) {
                 registrosDiv.innerHTML = '<p style="padding: 20px;">No hay entradas registradas en esta sesión.</p>';
                 return;
@@ -171,7 +171,7 @@
                     p.textContent = field.value || '';
 
                     if (entry.errors && entry.errors.includes(field.key)) {
-                        p.classList.add('data-error');  // highlight wrong fields
+                        p.classList.add('data-error');
                     }
 
                     userDiv.appendChild(p);
@@ -179,7 +179,7 @@
 
                 registrosDiv.appendChild(userDiv);
             });
-            
+
             // Helper function to format time
             function formatTime(milliseconds) {
                 const minutes = Math.floor(milliseconds / 60000);
