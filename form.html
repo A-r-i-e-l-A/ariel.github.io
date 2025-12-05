@@ -64,7 +64,8 @@
                     </div>
                     <div>
                         <label for="comunidad">Comunidad Autónoma</label>
-                        <select name="cars" id="cars">
+                        <select name="comunidad" id="comunidad">
+                            <option value="">--Selecciona una comunidad--</option>
                             <option value="Andalucía">Andalucía</option>
                             <option value="Aragón">Aragón</option>
                             <option value="Asturias">Asturias</option>
@@ -489,7 +490,7 @@
                     // Datos de contacto
                     domicilio: document.getElementById('domicilio').value.trim(),
                     ciudad: document.getElementById('ciudad').value.trim(),
-                    comunidad: document.getElementById('cars').value,
+                    comunidad: document.getElementById('comunidad').value,
                     fijo: document.getElementById('fijo').value.trim(),
                     movil: document.getElementById('movil').value.trim(),
                     email: document.getElementById('email').value.trim(),
