@@ -205,10 +205,11 @@ form {
     background-color: antiquewhite;
     width: auto;
     top: -10px;
-    left: 10px;
+    left: 50% !important;
     padding: 5px 10px;
     font-size: 18px;
     font-weight: 600;
+    transform: translateX(-50%) !important;
 }
 
 .datos-div input {
@@ -402,3 +403,4 @@ form {
 .data-error {
     background: lightcoral !important;
 }
+

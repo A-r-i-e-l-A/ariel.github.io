@@ -9,9 +9,23 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./spec-logo.jpg" type="image/x-icon">
     <script src="./script.js" defer></script>
+    <style id="dynamic-form-styles">
+        /* Default/Original style - will be replaced by style switcher */
+    </style>
 </head>
 
 <body>
+    <!-- Style Switcher -->
+    <div class="style-switcher">
+        <button class="style-btn active" data-style="original" title="Original">1</button>
+        <button class="style-btn" data-style="gradient" title="Modern Gradient">2</button>
+        <button class="style-btn" data-style="glass" title="Glass Morphism">3</button>
+        <button class="style-btn" data-style="dark" title="Minimalist Dark">4</button>
+        <button class="style-btn" data-style="pastel" title="Soft Pastel">5</button>
+        <button class="style-btn" data-style="corporate" title="Corporate Clean">6</button>
+        <button class="style-btn" data-style="vibrant" title="Vibrant Modern">7</button>
+    </div>
+
     <div class="timer-wrapper">
         <div class="timer-ghost">
             <div class="timer">
@@ -131,7 +145,233 @@
     </main>
 
     <script>
-        // FORM.HTML Script
+        // STYLE SWITCHER SCRIPT
+        const styles = {
+            original: `
+                body { background-color: var(--bg-grey); }
+                .forms-container { display: flex; min-height: auto; gap: 0; padding: 0; }
+                .forms-container>div { width: 50%; padding: 20px; background: transparent; border-radius: 0; box-shadow: none; }
+                .user-form { background: transparent; border-right: none; }
+                form { padding: 10px; background-color: beige; border-radius: 0; box-shadow: none; border: none; }
+                .datos-div { border: 2px lightgrey solid; border-radius: 10px; padding: 20px 10px 0; background: transparent; box-shadow: none; margin-bottom: 20px; gap: 20px; }
+                .datos-div p { background-color: antiquewhite; color: inherit; top: -10px; left: 10px; padding: 5px 10px; font-size: 18px; font-weight: 600; border-radius: 0; box-shadow: none; border: none; }
+                .datos-div input, .datos-div select { border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: white; }
+                .datos-div input:focus, .datos-div select:focus { border-color: #ddd; box-shadow: none; background: white; transform: none; }
+                .genero-div { border: 2px lightgrey solid; border-radius: 10px; background: transparent; }
+                button { border-radius: 10px; padding: 15px; font-size: 18px; font-weight: normal; box-shadow: none; }
+                button:hover { transform: none; box-shadow: none; }
+                .default-form { background-color: rgb(239, 237, 237); height: 100vh; }
+                .default-form h2 { color: inherit; font-size: 24px; margin-top: -11px; margin-bottom: 10px; font-weight: normal; text-shadow: none; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; background-clip: unset; }
+                .form-wrapper { background-color: lightgray; border-radius: 5px; box-shadow: none; border: none; }
+                .default-form h3 { color: inherit; font-size: inherit; font-weight: normal; border-bottom: none; padding-bottom: 0; }
+                .default-form p { color: inherit; }
+                .default-form p span { color: inherit; font-weight: normal; }
+                .default-form a { border-radius: 10px; padding: 15px; font-size: 18px; font-weight: normal; box-shadow: none; }
+                .default-form a:hover { transform: none; box-shadow: none; }
+            `,
+            gradient: `
+                body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+                .forms-container { display: flex; min-height: 100vh; gap: 0; padding: 0; }
+                .forms-container>div { width: 50%; padding: 40px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 0; box-shadow: none; }
+                .user-form { background: rgba(255, 255, 255, 0.95); }
+                form { padding: 30px; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); }
+                .datos-div { border: none; border-radius: 15px; padding: 30px 20px 10px; background: linear-gradient(145deg, #f0f0f0, #ffffff); box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff; margin-bottom: 30px; gap: 20px; }
+                .datos-div p { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; top: -15px; left: 20px; padding: 8px 20px; font-size: 16px; font-weight: 600; border-radius: 25px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+                .datos-div input, .datos-div select { border: 2px solid #e0e0e0; border-radius: 10px; padding: 12px; background: white; transition: all 0.3s ease; }
+                .datos-div input:focus, .datos-div select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+                .genero-div { border: 2px solid #e0e0e0; border-radius: 10px; background: white; }
+                button { border-radius: 12px; padding: 15px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 15px rgba(0, 32, 105, 0.3); }
+                button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 32, 105, 0.4); }
+                .default-form { background: rgba(0, 0, 0, 0.05); backdrop-filter: blur(10px); height: auto; min-height: 100vh; }
+                .default-form h2 { color: white; font-size: 28px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; }
+                .form-wrapper { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); }
+                .default-form h3 { color: #667eea; font-size: 20px; margin-bottom: 15px; }
+                .default-form p { color: #333; margin-bottom: 8px; }
+                .default-form a { border-radius: 12px; padding: 15px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 15px rgba(0, 32, 105, 0.3); }
+                .default-form a:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 32, 105, 0.4); }
+            `,
+            glass: `
+                body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%); min-height: 100vh; }
+                .forms-container { display: flex; min-height: 100vh; gap: 20px; padding: 20px; }
+                .forms-container>div { width: 50%; padding: 40px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: none; }
+                form { padding: 30px; background: rgba(255, 255, 255, 0.9); border-radius: 25px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+                .datos-div { border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 20px; padding: 30px 20px 10px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); margin-bottom: 30px; gap: 20px; }
+                .datos-div p { background: rgba(255, 255, 255, 0.95); color: #1e3c72; top: -15px; left: 20px; padding: 8px 20px; font-size: 16px; font-weight: 700; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+                .datos-div input, .datos-div select { border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 12px; background: rgba(255, 255, 255, 0.9); transition: all 0.3s ease; }
+                .datos-div input:focus, .datos-div select:focus { outline: none; background: white; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0, 32, 105, 0.1); }
+                .genero-div { border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; background: rgba(255, 255, 255, 0.9); }
+                button { border-radius: 15px; padding: 16px; font-size: 18px; font-weight: 600; }
+                button:hover { transform: scale(1.02); }
+                .default-form { background: rgba(255, 255, 255, 0.1); height: auto; min-height: 100vh; }
+                .default-form h2 { color: white; font-size: 28px; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; }
+                .form-wrapper { background: rgba(255, 255, 255, 0.95); border-radius: 25px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+                .default-form h3 { color: var(--blue); font-size: 20px; margin-bottom: 15px; }
+                .default-form p { color: #333; margin-bottom: 8px; }
+                .default-form a { border-radius: 15px; padding: 16px; font-size: 18px; font-weight: 600; }
+                .default-form a:hover { transform: scale(1.02); }
+            `,
+            dark: `
+                body { background-color: #1a1a1a; min-height: 100vh; }
+                .forms-container { display: flex; min-height: 100vh; gap: 0; padding: 0; }
+                .forms-container>div { width: 50%; padding: 40px; background: transparent; border-radius: 0; box-shadow: none; }
+                .user-form { background-color: #252525; border-right: 1px solid #333; }
+                form { padding: 40px; background-color: #2d2d2d; border-radius: 8px; border: 1px solid #3a3a3a; }
+                .datos-div { border: 1px solid #3a3a3a; border-radius: 8px; padding: 35px 20px 15px; background-color: #252525; margin-bottom: 35px; gap: 20px; }
+                .datos-div p { background-color: #1a1a1a; color: #ffffff; top: -12px; left: 20px; padding: 6px 16px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border: 1px solid #3a3a3a; border-radius: 0; }
+                .datos-div input, .datos-div select { border: 1px solid #3a3a3a; border-radius: 6px; padding: 12px; background-color: #1a1a1a; color: #ffffff; transition: all 0.3s ease; }
+                .datos-div input:focus, .datos-div select:focus { outline: none; border-color: var(--blue); background-color: #2d2d2d; }
+                .datos-div label { color: #aaaaaa; font-weight: 500; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+                .genero-div { border: 1px solid #3a3a3a; border-radius: 6px; background-color: #1a1a1a; color: #ffffff; }
+                button { border-radius: 6px; padding: 16px; font-size: 16px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+                .default-form { background-color: #1a1a1a; height: auto; min-height: 100vh; }
+                .default-form h2 { color: #ffffff; font-size: 24px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; }
+                .form-wrapper { background-color: #2d2d2d; border-radius: 8px; border: 1px solid #3a3a3a; }
+                .default-form h3 { color: #ffffff; font-size: 16px; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; }
+                .default-form p { color: #cccccc; margin-bottom: 8px; }
+                .default-form p span { color: #ffffff; font-weight: 500; }
+                .default-form a { border-radius: 6px; padding: 16px; font-size: 16px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+            `,
+            pastel: `
+                body { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); min-height: 100vh; }
+                .forms-container { display: flex; min-height: 100vh; gap: 30px; padding: 30px; }
+                .forms-container>div { width: 50%; padding: 40px; background: white; border-radius: 30px; box-shadow: 0 10px 40px rgba(252, 182, 159, 0.3); }
+                form { padding: 35px; background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%); border-radius: 25px; box-shadow: inset 0 2px 10px rgba(252, 182, 159, 0.1); }
+                .datos-div { border: none; border-radius: 20px; padding: 30px 20px 10px; background: white; box-shadow: 0 4px 15px rgba(252, 182, 159, 0.15); margin-bottom: 30px; gap: 20px; }
+                .datos-div p { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); color: white; top: -15px; left: 20px; padding: 8px 20px; font-size: 15px; font-weight: 600; border-radius: 20px; box-shadow: 0 3px 10px rgba(255, 154, 158, 0.3); }
+                .datos-div input, .datos-div select { border: 2px solid #ffe8e8; border-radius: 15px; padding: 12px 16px; background-color: #fefefe; transition: all 0.3s ease; }
+                .datos-div input:focus, .datos-div select:focus { outline: none; border-color: #fad0c4; background: white; box-shadow: 0 0 0 3px rgba(250, 208, 196, 0.2); }
+                .genero-div { border: 2px solid #ffe8e8; border-radius: 15px; background: #fefefe; }
+                button { border-radius: 15px; padding: 16px; font-size: 18px; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 32, 105, 0.25); }
+                button:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(0, 32, 105, 0.3); }
+                .default-form { background: white; height: auto; min-height: 100vh; }
+                .default-form h2 { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 28px; font-weight: 700; margin-bottom: 20px; }
+                .form-wrapper { background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%); border-radius: 25px; box-shadow: 0 4px 15px rgba(252, 182, 159, 0.15); }
+                .default-form h3 { color: #ff9a9e; font-size: 20px; font-weight: 600; margin-bottom: 15px; }
+                .default-form p { color: #555; margin-bottom: 8px; }
+                .default-form p span { color: #333; font-weight: 600; }
+                .default-form a { border-radius: 15px; padding: 16px; font-size: 18px; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 32, 105, 0.25); }
+                .default-form a:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(0, 32, 105, 0.3); }
+            `,
+            corporate: `
+                body { background-color: #e8eef3; min-height: 100vh; }
+                .forms-container { display: flex; min-height: 100vh; gap: 0; padding: 0; }
+                .forms-container>div { width: 50%; padding: 50px; background: transparent; border-radius: 0; box-shadow: none; }
+                .user-form { background-color: white; border-right: 2px solid #d0dce7; }
+                form { padding: 40px; background-color: #fafbfc; border-radius: 4px; border: 1px solid #d0dce7; }
+                .datos-div { border-left: 4px solid var(--blue); border-radius: 0; padding: 30px 20px 15px; background-color: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); margin-bottom: 35px; gap: 25px; }
+                .datos-div p { background-color: var(--blue); color: white; top: 0; left: 0; padding: 8px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; border-radius: 0; }
+                .datos-div input, .datos-div select { border: 1px solid #c5d0db; border-radius: 4px; padding: 11px 14px; background-color: white; transition: all 0.2s ease; }
+                .datos-div input:focus, .datos-div select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 2px rgba(0, 32, 105, 0.1); }
+                .datos-div label { color: #4a5568; font-weight: 600; font-size: 13px; }
+                .genero-div { border: 1px solid #c5d0db; border-radius: 4px; background: white; }
+                button { border-radius: 4px; padding: 14px; font-size: 16px; font-weight: 600; letter-spacing: 0.3px; }
+                .default-form { background-color: #f7f9fb; height: auto; min-height: 100vh; }
+                .default-form h2 { color: #2d3748; font-size: 26px; font-weight: 600; margin-bottom: 25px; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; }
+                .form-wrapper { background-color: white; border-radius: 4px; border: 1px solid #d0dce7; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06); }
+                .default-form h3 { color: var(--blue); font-size: 17px; font-weight: 600; border-bottom: 2px solid var(--blue); padding-bottom: 8px; margin-bottom: 15px; }
+                .default-form p { color: #4a5568; line-height: 1.6; margin-bottom: 10px; }
+                .default-form p span { color: #2d3748; font-weight: 600; }
+                .default-form a { border-radius: 4px; padding: 14px; font-size: 16px; font-weight: 600; letter-spacing: 0.3px; }
+            `,
+            vibrant: `
+                body { background: linear-gradient(45deg, #0093E9 0%, #80D0C7 100%); min-height: 100vh; }
+                .forms-container { display: flex; min-height: 100vh; gap: 25px; padding: 25px; }
+                .forms-container>div { width: 50%; padding: 40px; background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2); }
+                form { padding: 35px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 20px; }
+                .datos-div { border: none; border-radius: 16px; padding: 30px 20px 10px; background: white; box-shadow: 0 8px 24px rgba(0, 147, 233, 0.12); margin-bottom: 30px; gap: 20px; }
+                .datos-div p { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; top: -12px; left: 20px; padding: 8px 20px; font-size: 15px; font-weight: 700; border-radius: 20px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+                .datos-div input, .datos-div select { border: 2px solid #e1e8ed; border-radius: 12px; padding: 12px 16px; background-color: #fafbfc; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+                .datos-div input:focus, .datos-div select:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); transform: translateY(-1px); }
+                .genero-div { border: 2px solid #e1e8ed; border-radius: 12px; background: #fafbfc; }
+                button { border-radius: 12px; padding: 16px; font-size: 18px; font-weight: 700; box-shadow: 0 4px 14px 0 rgba(0, 32, 105, 0.39); }
+                button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 32, 105, 0.5); }
+                button:active { transform: translateY(0); }
+                .default-form { background: white; height: auto; min-height: 100vh; }
+                .default-form h2 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 30px; font-weight: 800; margin-bottom: 20px; }
+                .form-wrapper { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 20px; box-shadow: 0 8px 24px rgba(0, 147, 233, 0.12); }
+                .default-form h3 { color: #667eea; font-size: 20px; font-weight: 700; margin-bottom: 15px; }
+                .default-form p { color: #4a5568; margin-bottom: 8px; }
+                .default-form p span { color: #2d3748; font-weight: 700; }
+                .default-form a { border-radius: 12px; padding: 16px; font-size: 18px; font-weight: 700; box-shadow: 0 4px 14px 0 rgba(0, 32, 105, 0.39); }
+                .default-form a:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 32, 105, 0.5); }
+            `
+        };
+
+        // Style switcher CSS
+        const switcherStyle = document.createElement('style');
+        switcherStyle.textContent = `
+            .style-switcher {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                width: auto;
+                z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 12px;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                backdrop-filter: blur(10px);
+            }
+            .style-btn {
+                width: 40px;
+                height: 40px;
+                border: 2px solid var(--blue);
+                background: white;
+                color: var(--blue);
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 700;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                padding: 0;
+                margin: 0;
+            }
+            .style-btn:hover {
+                background: var(--blue);
+                color: white;
+                transform: scale(1.1);
+            }
+            .style-btn.active {
+                background: var(--blue);
+                color: white;
+                box-shadow: 0 2px 10px rgba(0, 32, 105, 0.4);
+            }
+        `;
+        document.head.appendChild(switcherStyle);
+
+        // Load saved style preference
+        const savedStyle = localStorage.getItem('formStyle') || 'original';
+        
+        function applyStyle(styleName) {
+            const styleElement = document.getElementById('dynamic-form-styles');
+            styleElement.textContent = styles[styleName];
+            
+            // Update active button
+            document.querySelectorAll('.style-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.style === styleName) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Save preference
+            localStorage.setItem('formStyle', styleName);
+        }
+
+        // Apply saved style on load
+        applyStyle(savedStyle);
+
+        // Add click handlers to style buttons
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                applyStyle(btn.dataset.style);
+            });
+        });
+
+        // FORM.HTML Script (rest of your original script)
 
         document.addEventListener('DOMContentLoaded', function () {
             // Check if user is logged in
@@ -185,43 +425,35 @@
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
-            /* ----------------------------------------
-                 CARET-SAFE AUTO FORMATTING FUNCTIONS
-            ----------------------------------------- */
-
             function applyFormatter(input, formatter) {
                 const prev = input.value;
                 const raw = prev.replace(/\s+/g, '');
                 const prevPos = input.selectionStart;
-
                 const digitsBefore = prev.substring(0, prevPos).replace(/\s+/g, '').length;
-
                 const formatted = formatter(raw);
                 input.value = formatted;
-
                 let newPos = 0, seen = 0;
                 while (newPos < formatted.length && seen < digitsBefore) {
-                    if (/\d/.test(formatted[newPos])) seen++;
+                    if (/\S/.test(formatted[newPos])) seen++;
                     newPos++;
                 }
-
                 input.selectionStart = input.selectionEnd = newPos;
             }
 
             function formatIBAN(raw) {
-                return raw.toUpperCase().replace(/(.{4})/g, '$1 ').trim();
+                return raw.replace(/(.{4})/g, '$1 ').trim();
             }
 
             function formatCard(raw) {
-                return raw.replace(/\D+/g, '').replace(/(.{4})/g, '$1 ').trim();
+                return raw.replace(/(.{4})/g, '$1 ').trim();
             }
 
             function formatPhone(raw) {
-                raw = raw.replace(/\D+/g, '').substring(0, 9);
+                raw = raw.substring(0, 11);
                 if (raw.length <= 3) return raw;
-                if (raw.length <= 5) return raw.replace(/(\d{3})(\d+)/, '$1 $2');
-                if (raw.length <= 7) return raw.replace(/(\d{3})(\d{2})(\d+)/, '$1 $2 $3');
-                return raw.replace(/(\d{3})(\d{2})(\d{2})(\d+)/, '$1 $2 $3 $4');
+                if (raw.length <= 5) return raw.replace(/(.{3})(.+)/, '$1 $2');
+                if (raw.length <= 7) return raw.replace(/(.{3})(.{2})(.+)/, '$1 $2 $3');
+                return raw.replace(/(.{3})(.{2})(.{2})(.+)/, '$1 $2 $3 $4');
             }
 
             const ibanInput = document.getElementById('iban');
@@ -236,7 +468,6 @@
 
             function updateRandomDisplay() {
                 randomData = generateRandomData();
-
                 document.querySelector('.default-form .form-wrapper').innerHTML = `
             <div>
                 <h3>Datos personales</h3>
@@ -272,138 +503,60 @@
                 const apellido1 = randomElement(apellidos);
                 const apellido2 = randomElement(apellidos);
                 const apellidosCompletos = `${apellido1} ${apellido2}`;
-
                 const comunidad = randomElement(Object.keys(ciudadesPorCA));
                 const ciudad = randomElement(ciudadesPorCA[comunidad]);
-
                 const dni = `${randomNumber(10000000, 99999999)}${String.fromCharCode(65 + randomNumber(0, 25))}`;
                 const nacimiento = `${String(randomNumber(1, 28)).padStart(2, '0')}/${String(randomNumber(1, 12)).padStart(2, '0')}/${randomNumber(1950, 2000)}`;
-
                 const domicilio = `${randomElement(tipoVia)} ${randomElement(calles)}, ${randomNumber(1, 199)}`;
 
                 function generateRandomPhone(type) {
                     let num = '';
-                    if (type === 'fijo') {
-                        num += '9'; // fixed lines start with 9
-                    } else if (type === 'movil') {
-                        num += Math.random() < 0.5 ? '6' : '7'; // mobiles start with 6 or 7
-                    }
-
-                    // Fill the rest of the digits (9 digits total)
-                    while (num.length < 9) {
-                        num += Math.floor(Math.random() * 10);
-                    }
-
-                    return formatPhone(num); // returns in 3 2 2 2 format
+                    if (type === 'fijo') num += '9';
+                    else if (type === 'movil') num += Math.random() < 0.5 ? '6' : '7';
+                    while (num.length < 9) num += Math.floor(Math.random() * 10);
+                    return formatPhone(num);
                 }
 
                 const fijo = generateRandomPhone('fijo');
                 const movil = generateRandomPhone('movil');
-
                 const nombreSinTildes = removeAccents(nombre.toLowerCase());
                 const apellidoSinTildes = removeAccents(apellido1.toLowerCase());
                 const email = `${nombreSinTildes}.${apellidoSinTildes}@${randomElement(dominiosEmail)}`;
-
                 const empresa = randomElement(empresas);
-
                 const ibanNumbers = Array.from({ length: 20 }, () => randomNumber(0, 9)).join('');
                 const iban = `ES${randomNumber(10, 99)} ${ibanNumbers.substring(0, 4)} ${ibanNumbers.substring(4, 8)} ${ibanNumbers.substring(8, 12)} ${ibanNumbers.substring(12, 16)} ${ibanNumbers.substring(16, 20)}`;
-
                 const tarjeta = Array.from({ length: 16 }, () => randomNumber(0, 9)).join('');
                 const tarjetaFormateada = `${tarjeta.substring(0, 4)} ${tarjeta.substring(4, 8)} ${tarjeta.substring(8, 12)} ${tarjeta.substring(12, 16)}`;
 
-                return {
-                    nombre,
-                    apellidos: apellidosCompletos,
-                    dni,
-                    nacimiento,
-                    genero,
-                    domicilio,
-                    ciudad,
-                    comunidad,
-                    fijo,
-                    movil,
-                    email,
-                    empresa,
-                    iban,
-                    tarjeta: tarjetaFormateada
-                };
+                return { nombre, apellidos: apellidosCompletos, dni, nacimiento, genero, domicilio, ciudad, comunidad, fijo, movil, email, empresa, iban, tarjeta: tarjetaFormateada };
             }
 
-            // Generate and display random data
             let randomData = generateRandomData();
-
             document.querySelector('.default-form .form-wrapper').innerHTML = `
-                <div>
-                    <h3>Datos personales</h3>
-                    <p>Nombre: <span>${randomData.nombre}</span></p>
-                    <p>Apellidos: <span>${randomData.apellidos}</span></p>
-                    <p>DNI: <span>${randomData.dni}</span></p>
-                    <p>Nacimiento: <span>${randomData.nacimiento}</span></p>
-                    <p>Género: <span>${randomData.genero}</span></p>
-                </div>
-                <hr>
-                <div>
-                    <h3>Datos de contacto</h3>
-                    <p>Domicilio: <span>${randomData.domicilio}</span></p>
-                    <p>Ciudad: <span>${randomData.ciudad}</span></p>
-                    <p>Comunidad Autónoma: <span>${randomData.comunidad}</span></p>
-                    <p>Teléfono fijo: <span>${randomData.fijo}</span></p>
-                    <p>Teléfono móvil: <span>${randomData.movil}</span></p>
-                    <p>Email: <span>${randomData.email}</span></p>
-                </div>
-                <hr>
-                <div>
-                    <h3>Datos bancarios</h3>
-                    <p>Empresa: <span>${randomData.empresa}</span></p>
-                    <p>IBAN: <span>${randomData.iban}</span></p>
-                    <p>Tarjeta de crédito: <span>${randomData.tarjeta}</span></p>
-                </div>
+                <div><h3>Datos personales</h3><p>Nombre: <span>${randomData.nombre}</span></p><p>Apellidos: <span>${randomData.apellidos}</span></p><p>DNI: <span>${randomData.dni}</span></p><p>Nacimiento: <span>${randomData.nacimiento}</span></p><p>Género: <span>${randomData.genero}</span></p></div><hr>
+                <div><h3>Datos de contacto</h3><p>Domicilio: <span>${randomData.domicilio}</span></p><p>Ciudad: <span>${randomData.ciudad}</span></p><p>Comunidad Autónoma: <span>${randomData.comunidad}</span></p><p>Teléfono fijo: <span>${randomData.fijo}</span></p><p>Teléfono móvil: <span>${randomData.movil}</span></p><p>Email: <span>${randomData.email}</span></p></div><hr>
+                <div><h3>Datos bancarios</h3><p>Empresa: <span>${randomData.empresa}</span></p><p>IBAN: <span>${randomData.iban}</span></p><p>Tarjeta de crédito: <span>${randomData.tarjeta}</span></p></div>
             `;
 
-            // Initialize timer variables
             let startTime = null;
             let timerInterval = null;
-            let timerStarted = false;
 
             function updateTimer() {
                 if (!startTime) return;
-
                 const elapsed = Date.now() - startTime;
                 const minutes = Math.floor(elapsed / 60000);
                 const seconds = Math.floor((elapsed % 60000) / 1000);
                 const milliseconds = Math.floor((elapsed % 1000) / 10);
-
                 const timerDisplay = document.querySelector('.timer p');
-                if (timerDisplay) {
-                    timerDisplay.textContent =
-                        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
-                }
+                if (timerDisplay) timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
             }
 
-            function startTimer() {
-                if (timerStarted) return;
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 10);
 
-                timerStarted = true;
-                startTime = Date.now();
-                timerInterval = setInterval(updateTimer, 10);
-                console.log('Timer started');
-            }
-
-            // Add event listeners to all form inputs to start timer
-            const formInputs = document.querySelectorAll('.user-form input, .user-form select');
-            formInputs.forEach(input => {
-                input.addEventListener('input', startTimer, { once: false });
-                input.addEventListener('change', startTimer, { once: false });
-                input.addEventListener('focus', startTimer, { once: false });
-                input.addEventListener('click', startTimer, { once: false });
-            });
-
-            // Timer toggle on click
             const timerGhost = document.querySelector('.timer-ghost');
             const timer = document.querySelector('.timer');
             let timerHidden = false;
-
             timerGhost.addEventListener('click', function (e) {
                 e.stopPropagation();
                 if (timerHidden) {
@@ -415,39 +568,27 @@
                 }
             });
 
-            // Get or initialize user session data
             function getUserSession() {
                 const sessionKey = `session_${currentUser.id}_${Date.now()}`;
-                const sessionData = {
-                    sessionId: sessionKey,
-                    userId: currentUser.id,
-                    userName: currentUser.name,
-                    userEmail: currentUser.email,
-                    startTime: new Date().toISOString(),
-                    date: new Date().toLocaleDateString('es-ES'),
-                    entries: [],
-                    errors: 0
+                return {
+                    sessionId: sessionKey, userId: currentUser.id, userName: currentUser.name, userEmail: currentUser.email,
+                    startTime: new Date().toISOString(), date: new Date().toLocaleDateString('es-ES'), entries: [], errors: 0
                 };
-                return sessionData;
             }
 
             let currentSession = getUserSession();
 
-            // Get all form submissions
             function getAllSubmissions() {
                 const submissions = localStorage.getItem('formSubmissions');
                 return submissions ? JSON.parse(submissions) : [];
             }
 
-            // Save all submissions
             function saveAllSubmissions(submissions) {
                 localStorage.setItem('formSubmissions', JSON.stringify(submissions));
             }
 
-            // Validate form data and detect errors
             function validateFormData(formData) {
                 const errors = [];
-
                 if (formData.nombre !== formData.correctData.nombre) errors.push('nombre');
                 if (formData.apellidos !== formData.correctData.apellidos) errors.push('apellidos');
                 if (formData.dni !== formData.correctData.dni) errors.push('dni');
@@ -460,128 +601,73 @@
                 if (formData.movil !== formData.correctData.movil) errors.push('movil');
                 if (formData.email !== formData.correctData.email) errors.push('email');
                 if (formData.empresa !== formData.correctData.empresa) errors.push('empresa');
-
                 const userIban = formData.iban.replace(/\s+/g, '');
                 const correctIban = formData.correctData.iban.replace(/\s+/g, '');
                 if (userIban !== correctIban) errors.push('iban');
-
                 const userCard = formData.tarjeta.replace(/\s+/g, '');
                 const correctCard = formData.correctData.tarjeta.replace(/\s+/g, '');
                 if (userCard !== correctCard) errors.push('tarjeta');
-
                 return errors;
             }
 
-            // Handle form submission
             const form = document.querySelector('.user-form form');
-
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
-
-                // Collect form data
                 const formData = {
-                    // Datos personales
                     nombre: document.getElementById('nombre').value.trim(),
                     apellidos: document.getElementById('apellidos').value.trim(),
                     dni: document.getElementById('dni').value.trim().toUpperCase(),
                     nacimiento: document.getElementById('nacimiento').value.trim(),
                     genero: document.querySelector('input[name="genero"]:checked')?.value || '',
-
-                    // Datos de contacto
                     domicilio: document.getElementById('domicilio').value.trim(),
                     ciudad: document.getElementById('ciudad').value.trim(),
                     comunidad: document.getElementById('comunidad').value,
                     fijo: document.getElementById('fijo').value.trim(),
                     movil: document.getElementById('movil').value.trim(),
                     email: document.getElementById('email').value.trim(),
-
-                    // Datos bancarios
                     empresa: document.getElementById('empresa').value.trim(),
                     iban: document.getElementById('iban').value.trim(),
                     tarjeta: document.getElementById('tarjeta').value.trim(),
-
-                    // Metadata
                     timestamp: new Date().toISOString(),
                     timeElapsed: startTime ? Date.now() - startTime : 0
                 };
-
                 formData.correctData = randomData;
-
-                // Validate and detect errors
                 const detectedErrors = validateFormData(formData);
                 formData.errors = detectedErrors;
                 formData.hasErrors = detectedErrors.length > 0;
-
-                // Add to current session
                 currentSession.entries.push(formData);
-
-                if (detectedErrors.length > 0) {
-                    currentSession.errors += 1;  // ✅ Only count the entry, not fields
-                }
-
-                // Save to localStorage
+                if (detectedErrors.length > 0) currentSession.errors += 1;
                 const allSubmissions = getAllSubmissions();
-
-                // Check if this session already exists, update it
                 const existingIndex = allSubmissions.findIndex(s => s.sessionId === currentSession.sessionId);
-                if (existingIndex >= 0) {
-                    allSubmissions[existingIndex] = currentSession;
-                } else {
-                    allSubmissions.push(currentSession);
-                }
-
+                if (existingIndex >= 0) allSubmissions[existingIndex] = currentSession;
+                else allSubmissions.push(currentSession);
                 saveAllSubmissions(allSubmissions);
-
-                console.log('Form data saved:', formData);
-                console.log('Session updated:', currentSession);
-
-                // Clear form
                 form.reset();
                 updateRandomDisplay();
             });
 
-            // Handle "Terminar intento" button
             const endButton = document.querySelector('.default-form a[href="index.html"]');
             if (endButton) {
                 endButton.addEventListener('click', function (e) {
                     e.preventDefault();
-
-                    // Calculate final session stats
                     const endTime = Date.now();
                     const totalTime = startTime ? endTime - startTime : 0;
-
                     currentSession.endTime = new Date().toISOString();
                     currentSession.totalTime = totalTime;
                     currentSession.totalTimeFormatted = formatTime(totalTime);
                     currentSession.totalEntries = currentSession.entries.length;
-                    currentSession.entriesPerHour = currentSession.totalEntries > 0 ?
-                        (currentSession.totalEntries / (totalTime / 3600000)).toFixed(2) : 0;
-                    currentSession.errorPercentage = currentSession.totalEntries > 0
-                        ? ((currentSession.errors / currentSession.totalEntries) * 100).toFixed(2) : 0;
-
-                    // Save final session
+                    currentSession.entriesPerHour = currentSession.totalEntries > 0 ? (currentSession.totalEntries / (totalTime / 3600000)).toFixed(2) : 0;
+                    currentSession.errorPercentage = currentSession.totalEntries > 0 ? ((currentSession.errors / currentSession.totalEntries) * 100).toFixed(2) : 0;
                     const allSubmissions = getAllSubmissions();
                     const existingIndex = allSubmissions.findIndex(s => s.sessionId === currentSession.sessionId);
-                    if (existingIndex >= 0) {
-                        allSubmissions[existingIndex] = currentSession;
-                    } else {
-                        allSubmissions.push(currentSession);
-                    }
+                    if (existingIndex >= 0) allSubmissions[existingIndex] = currentSession;
+                    else allSubmissions.push(currentSession);
                     saveAllSubmissions(allSubmissions);
-
-                    console.log('Session ended:', currentSession);
-
-                    // Clear timer
-                    if (timerInterval) {
-                        clearInterval(timerInterval);
-                    }
-
-                    // Redirect to index
+                    if (timerInterval) clearInterval(timerInterval);
                     window.location.href = 'index.html';
                 });
             }
 
-            // Helper function to format time
             function formatTime(milliseconds) {
                 const minutes = Math.floor(milliseconds / 60000);
                 const seconds = Math.floor((milliseconds % 60000) / 1000);
